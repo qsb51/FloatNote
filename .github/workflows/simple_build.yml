@@ -1,0 +1,20 @@
+name: Simple Android Build Test
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10 # 设置超时，防止无限卡住
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    # 关键步骤：使用社区维护的Action安装Android SDK
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+    - name: Make gradlew executable
+      run: chmod +x gradlew
+    - name: Build Debug APK
+      run: ./gradlew assembleDebug --stacktrace --no-daemon
