@@ -11,9 +11,14 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    # 关键步骤：使用社区维护的Action安装Android SDK
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
+    # ▼ 新增的步骤放在这里 ▼
+    - name: 生成Gradle Wrapper文件
+      run: |
+        mkdir -p gradle/wrapper
+        gradle wrapper --gradle-version 8.3 --distribution-type bin
+    # ▲ 新增的步骤结束 ▲
     - name: Make gradlew executable
       run: chmod +x gradlew
     - name: Build Debug APK
